@@ -42,7 +42,7 @@ public class Banco {
         }
 
     }
-     void addConta(){
+    public void addConta(){
         int escolha;
         System.out.println("Qual o tipo da conta?");
         System.out.println("1-Conta padrão");
@@ -89,26 +89,35 @@ public class Banco {
         System.out.println("Não achamos nenhuma conta com esse código");
     }
     public void transferencia(String cod_conta_origem, String cod_conta_destino, double valor_transferencia){
+        
         int pos_origem;
         int pos_destino;
+        
         for (int contador_origem = 0; contador_origem < Lista_de_contas.size(); contador_origem++) {
             if (Lista_de_contas.get(contador_origem).get_cod_conta().equals(cod_conta_origem)) {
                 pos_origem = contador_origem;
                 Lista_de_contas.get(pos_origem).debito_conta(valor_transferencia);
                 break;
             }
-            System.out.println("nenhuma corrêspondencia");
-            return;
+            else {
+                System.out.println("nenhuma corrêspondencia");
+                return;
+            }
         }
+        
         for (int contador_destino = 0; contador_destino < Lista_de_contas.size(); contador_destino++) {
             if (Lista_de_contas.get(contador_destino).get_cod_conta().equals(cod_conta_destino)) {
                 pos_destino = contador_destino;
                 Lista_de_contas.get(pos_destino).credito_conta(valor_transferencia);
+                Lista_de_contas.get(pos_destino).atualizarPontos(valor_transferencia);
                 break;
             }
         }
+
         System.out.println("Transferência feita com sucesso");
+        return;
     }
+
     public void fazer_deposito(String cod_conta,double valor_deposito){
         for (int contador = 0; contador < Lista_de_contas.size(); contador++) {
             if (cod_conta.equals(Lista_de_contas.get(contador).get_cod_conta())) {
