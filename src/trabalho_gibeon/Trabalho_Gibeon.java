@@ -21,7 +21,7 @@ public class Trabalho_Gibeon {
         double valor;
         int opcao = 9;
         System.out.println("Bem vindo ao Banco da UF");
-        System.out.println("Qual operação desejsa fazer?");
+        System.out.println("Qual operação deseja fazer?");
         boolean continuar = true;
         while(opcao != 0 && continuar == true){
             banquinho.menu();
@@ -34,7 +34,7 @@ public class Trabalho_Gibeon {
                     break;
                 case 2:
                     ler.nextLine(); 
-                    System.out.println("Entre com o código da conta");
+                    System.out.println("Entre com o código da conta:");
                     codigo_conta = ler.nextLine();
                     System.out.println("Agora com o valor do deposito");
                     valor = ler.nextDouble();
@@ -42,7 +42,7 @@ public class Trabalho_Gibeon {
                     break;
                 case 3:
                     ler.nextLine(); 
-                    System.out.println("Entre com o código da conta");
+                    System.out.println("Entre com o código da conta:");
                     codigo_conta = ler.nextLine();
                     System.out.println("Agora com o valor do saque");
                     valor = ler.nextDouble();
@@ -56,7 +56,7 @@ public class Trabalho_Gibeon {
                     codigo_conta2 = ler.nextLine();
                     System.out.println("Agora com o valor a ser transferido");
                     valor = ler.nextDouble();
-                    System.out.println(codigo_conta +"," + codigo_conta2+","+ valor);
+                    System.out.println(codigo_conta +"," + codigo_conta2 +","+ valor);
                     banquinho.transferencia(codigo_conta, codigo_conta2, valor);
                     break;
                 case 5:
@@ -76,7 +76,8 @@ public class Trabalho_Gibeon {
                 default:
                     System.out.println("Opção inválida");
             }
-            System.out.println("Deseja fazer outra operação?1 pra sim, qualquer outro valor irá encerrar");
+            System.out.println("Deseja fazer outra operação? ");
+            System.out.println("1 - para sim, qualquer outro valor irá encerrar.");
             int opcao2;
             opcao2 = ler.nextInt();
             if (opcao2 == 1) {

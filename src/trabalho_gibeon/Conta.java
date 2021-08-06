@@ -53,6 +53,7 @@ public class Conta {
         this.saldo += valor_credito;
         System.out.println("Deposito realizado com sucesso");
     }
+
     public void debito_conta(double valor_debito){
         if (valor_debito <= 0) {
             System.out.println("Valor inválido");
@@ -61,11 +62,13 @@ public class Conta {
         this.saldo -= valor_debito;
         System.out.println("Saque realizado com sucesso");
     }
+
     public void mostrar_conta(){
         System.out.println("Código da conta: " + this.get_cod_conta());
         System.out.println("Saldo na conta: R$" + this.get_saldo());
         System.out.println("Pontuação da conta: " + this.get_Pontos());
     }
+
     public void atualizarPontos(double valor_transferido){
         
         double valorContagem = this.get_valorContagemPontos() + valor_transferido; 
@@ -77,4 +80,12 @@ public class Conta {
         
         this.set_valorContagemPontos(valorContagem);
     }
+
+    public boolean conferindoSaldo(double valor){
+        if((this.saldo - valor) < (-1.000)){
+            return false;
+        } else {
+            return true;
+        }
+     }
 }

@@ -21,10 +21,11 @@ public class Banco {
     
     public Banco() {
         int escolha;
-    	System.out.println("ADICIONANDO A PRIMEIRA CONTA DO BANCO");
+    	System.out.println("ADICIONANDO A PRIMEIRA CONTA DO BANCO!");
         System.out.println("Qual o tipo da conta?");
-        System.out.println("1-Conta padrão");
-        System.out.println("2-Conta bônus");
+        System.out.println("1 - Conta padrão");
+        System.out.println("2 - Conta poupança");
+        
         escolha = ler.nextByte();
         switch (escolha){
             case 1:
@@ -42,42 +43,44 @@ public class Banco {
         }
 
     }
+    
     public void addConta(){
         int escolha;
         System.out.println("Qual o tipo da conta?");
-        System.out.println("1-Conta padrão");
-        System.out.println("2-Conta bônus");
-        System.out.println("3-Conta poupança");
+        System.out.println("1 - Conta padrão");
+        System.out.println("2 - Conta poupança");
+        
         escolha = ler.nextInt();
         switch (escolha){
             case 1:
                 Conta conta_nova = new Conta();
                 for(int contador = 0; contador<Lista_de_contas.size(); contador++) {
                     if(Lista_de_contas.get(contador).get_cod_conta().equals(conta_nova.get_cod_conta())) {
-                    System.out.println("Já existe uma conta com um código semelhante");
+                    System.out.println("Já existe uma conta com um código semelhante.");
                     return;
                     }
                 }
                 Lista_de_contas.add(conta_nova);
-                System.out.println("Conta criada com sucesso");
+                System.out.println("Conta criada com sucesso!");
                 break;
             case 2:
                 Conta conta_poupanca_nova = new Conta_poupanca();
                 for(int contador = 0; contador<Lista_de_contas.size(); contador++) {
                     if(Lista_de_contas.get(contador).get_cod_conta().equals(conta_poupanca_nova.get_cod_conta())) {
-                    System.out.println("Já existe uma conta com um código semelhante");
+                    System.out.println("Já existe uma conta com um código semelhante.");
                     return;
                     }
                 }
                 Lista_de_contas.add(conta_poupanca_nova);
                 Lista_de_contas_poupanca.add((Conta_poupanca) conta_poupanca_nova);
-                System.out.println("Conta criada com sucesso");
+                System.out.println("Conta criada com sucesso!");
                 break;
             default:
-                System.out.println("Opção inválida, tente de novo");
+                System.out.println("Opção inválida, tente de novo.");
                 return;
             }
         }
+    
     public void mostra_saldo(String cod_conta){
         for (int contador = 0; contador < Lista_de_contas.size(); contador++) {
             if (Lista_de_contas.get(contador).get_cod_conta().equals(cod_conta)) {
@@ -86,24 +89,29 @@ public class Banco {
                 return;
             }
         }
-        System.out.println("Não achamos nenhuma conta com esse código");
+        System.out.println("Não achamos nenhuma conta com esse código.");
     }
+    
     public void transferencia(String cod_conta_origem, String cod_conta_destino, double valor_transferencia){
         
         int pos_origem;
         int pos_destino;
         
+        /*Confere se a conta existe para fazer a transação*/
         for (int contador_origem = 0; contador_origem < Lista_de_contas.size(); contador_origem++) {
             if (Lista_de_contas.get(contador_origem).get_cod_conta().equals(cod_conta_origem)) {
                 pos_origem = contador_origem;
-                Lista_de_contas.get(pos_origem).debito_conta(valor_transferencia);
+                if(Lista_de_contas.get(pos_origem).conferindoSaldo(valor_transferencia)){
+                    Lista_de_contas.get(pos_origem).debito_conta(valor_transferencia);
+                }
                 break;
             }
             else {
-                System.out.println("nenhuma corrêspondencia");
+                System.out.println("nenhuma corrêspondencia.");
                 return;
             }
         }
+        
         
         for (int contador_destino = 0; contador_destino < Lista_de_contas.size(); contador_destino++) {
             if (Lista_de_contas.get(contador_destino).get_cod_conta().equals(cod_conta_destino)) {
@@ -114,7 +122,8 @@ public class Banco {
             }
         }
 
-        System.out.println("Transferência feita com sucesso");
+        System.out.println("Transferência feita com sucesso!");
+
         return;
     }
 
@@ -127,15 +136,24 @@ public class Banco {
         }
         System.out.println("Nenhuma corrêspondencia");
     }
+
     public void fazer_saque(String cod_conta,double valor_saque){
         for (int contador = 0; contador < Lista_de_contas.size(); contador++) {
             if (cod_conta.equals(Lista_de_contas.get(contador).get_cod_conta())) {
-                Lista_de_contas.get(contador).debito_conta(valor_saque);
+                
+                if(Lista_de_contas.get(contador).conferindoSaldo(valor_saque)){
+                    Lista_de_contas.get(contador).debito_conta(valor_saque);
+                }
+                else {
+                    System.out.println("Saldo insuficiente!");
+                    break;
+                }
                 return;
             }
         }
         System.out.println("Nenhuma corrêspondencia");
     }
+
     public void mostrar_dados_conta(String cod_conta){
          for (int contador = 0; contador < Lista_de_contas.size(); contador++) {
             if (cod_conta.equals(Lista_de_contas.get(contador).get_cod_conta())) {
@@ -145,6 +163,7 @@ public class Banco {
         }
         System.out.println("Nenhuma corrêspondecia");
     }
+
     public void rende_juros(String cod_conta, double percentual_juros){
      for (int contador = 0; contador < Lista_de_contas_poupanca.size(); contador++) {
             if (cod_conta.equals(Lista_de_contas_poupanca.get(contador).get_cod_conta())){              
@@ -152,13 +171,14 @@ public class Banco {
             } 
         }
     }
+
     public void menu(){
-        System.out.println("1-Criar uma nova conta");
-        System.out.println("2-Fazer um depósito");
-        System.out.println("3-Fazer um saque");
-        System.out.println("4- fazer uma transferência");
-        System.out.println("5-Mostrar dados da conta");
-        System.out.println("6-Render Juros(apenas contas poupança)");
-        System.out.println("0-Sair");
+        System.out.println("1 - Criar uma nova conta");
+        System.out.println("2 - Fazer um depósito");
+        System.out.println("3 - Fazer um saque");
+        System.out.println("4 - Fazer uma transferência");
+        System.out.println("5 - Mostrar dados da conta");
+        System.out.println("6 - Render Juros(apenas contas poupança)");
+        System.out.println("0 - Sair");
     }
 }
