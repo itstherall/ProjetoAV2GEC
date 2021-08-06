@@ -81,6 +81,21 @@ public class Banco {
             }
         }
     
+    public int essaContaExiste(String codConta){
+        
+        int confereConta;
+        
+        for (int numOrigem = 0; numOrigem < Lista_de_contas.size(); numOrigem++) {
+            if (Lista_de_contas.get(numOrigem).get_cod_conta().equals(codConta)) {
+                confereConta = numOrigem;
+                return numOrigem;
+            }
+        }
+
+        System.out.println("Essa conta não existe!!!");
+        return -1;
+    }
+
     public void mostra_saldo(String cod_conta){
         for (int contador = 0; contador < Lista_de_contas.size(); contador++) {
             if (Lista_de_contas.get(contador).get_cod_conta().equals(cod_conta)) {
@@ -94,40 +109,26 @@ public class Banco {
     
     public void transferencia(String cod_conta_origem, String cod_conta_destino, double valor_transferencia){
         
-        int pos_origem;
-        int pos_destino;
-        
-        /*Confere se a conta existe para fazer a transação*/
-        for (int contador_origem = 0; contador_origem < Lista_de_contas.size(); contador_origem++) {
-            if (Lista_de_contas.get(contador_origem).get_cod_conta().equals(cod_conta_origem)) {
-                pos_origem = contador_origem;
-                if(Lista_de_contas.get(pos_origem).conferindoSaldo(valor_transferencia)){
-                    Lista_de_contas.get(pos_origem).debito_conta(valor_transferencia);
-                }
-                break;
-            }
-            else {
-                System.out.println("nenhuma corrêspondencia.");
+        int confOrigem = this.essaContaExiste(cod_conta_origem);
+        int confDestino = this.essaContaExiste(cod_conta_destino);
+
+        if( confOrigem!= (-1) && confDestino != (-1)){
+            if(Lista_de_contas.get(confOrigem).conferindoSaldo(valor_transferencia)){
+                Lista_de_contas.get(confOrigem).debito_conta(valor_transferencia);
+                Lista_de_contas.get(confDestino).credito_conta(valor_transferencia);
+                Lista_de_contas.get(confDestino).atualizarPontos(valor_transferencia);
+            
+                System.out.println("Transferencia feita com sucesso!");
                 return;
             }
         }
-        
-        
-        for (int contador_destino = 0; contador_destino < Lista_de_contas.size(); contador_destino++) {
-            if (Lista_de_contas.get(contador_destino).get_cod_conta().equals(cod_conta_destino)) {
-                pos_destino = contador_destino;
-                Lista_de_contas.get(pos_destino).credito_conta(valor_transferencia);
-                Lista_de_contas.get(pos_destino).atualizarPontos(valor_transferencia);
-                break;
-            }
-        }
 
-        System.out.println("Transferência feita com sucesso!");
-
+        System.out.println("Tranferencia NÃO realizada!");
         return;
     }
 
     public void fazer_deposito(String cod_conta,double valor_deposito){
+
         for (int contador = 0; contador < Lista_de_contas.size(); contador++) {
             if (cod_conta.equals(Lista_de_contas.get(contador).get_cod_conta())) {
                 Lista_de_contas.get(contador).credito_conta(valor_deposito);
